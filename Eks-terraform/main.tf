@@ -31,10 +31,6 @@ data "aws_subnets" "public" {
     name   = "vpc-id"
     values = [data.aws_vpc.default.id]
   }
- filter {
-    name   = "availabilityZone"
-    values = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d", "us-east-1f"]
-  }
 }
 #cluster provision
 resource "aws_eks_cluster" "example" {
@@ -87,15 +83,7 @@ resource "aws_eks_node_group" "example" {
   cluster_name    = aws_eks_cluster.example.name
   node_group_name = "Node-cloud"
   node_role_arn   = aws_iam_role.example1.arn
-  subnet_ids = [ 
-    # Add only the subnets you want, excluding us-east-1e
-    data.aws_subnet_ids.public.ids[0],  # us-east-1a
-    data.aws_subnet_ids.public.ids[1],  # us-east-1b
-    data.aws_subnet_ids.public.ids[2],  # us-east-1c
-    data.aws_subnet_ids.public.ids[3],  # us-east-1d
-    data.aws_subnet_ids.public.ids[4],  # us-east-1f
-  ]
-
+  subnet_ids      = data.aws_subnets.public.ids
 
   scaling_config {
     desired_size = 1
