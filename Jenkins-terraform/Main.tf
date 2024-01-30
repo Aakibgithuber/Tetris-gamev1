@@ -26,7 +26,6 @@ resource "aws_iam_instance_profile" "example_profile" {
   role = aws_iam_role.example_role.name
 }
 
-
 resource "aws_security_group" "Jenkins-sg" {
   name        = "Jenkins-Security Group"
   description = "Open 22,443,80,8080,9000"
@@ -59,15 +58,15 @@ resource "aws_security_group" "Jenkins-sg" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = "ami-0df4b2961410d4cff"
+  ami                    = "ami-0c7217cdde317cfec"
   instance_type          = "t2.medium"
-  key_name               = "purplehaze"
+  key_name               = "my key"
   vpc_security_group_ids = [aws_security_group.Jenkins-sg.id]
   user_data              = templatefile("./install_jenkins.sh", {})
   iam_instance_profile   = aws_iam_instance_profile.example_profile.name
 
   tags = {
-    Name = "Jenkins-argo"
+    Name = "Jenkins Server"
   }
 
   root_block_device {
