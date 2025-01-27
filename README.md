@@ -39,7 +39,7 @@ https://archive.eksworkshop.com/intermediate/290_argocd/install/
 # Image updater stage
 ```
  environment {
-    GIT_REPO_NAME = "Tetris-gamev1"
+    GIT_REPO_NAME = "Tetris-deployment-file"
     GIT_USER_NAME = "Aakibgithuber"
   }
     stage('Checkout Code') {
